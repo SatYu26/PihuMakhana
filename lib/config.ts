@@ -7,10 +7,10 @@ export const SITE = {
   email: "satyamgoyal008@gmail.com",
 };
 
-// Set NEXT_PUBLIC_SITE_URL (e.g. https://yourdomain.com) when you deploy.
+// Public website address. Override with NEXT_PUBLIC_SITE_URL if it ever changes.
 // Used for canonical links, sitemap, social previews and structured data.
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://pihufarmfresh.example"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://pihumakhana.store"
 ).replace(/\/$/, "");
 
 export const SEO = {
