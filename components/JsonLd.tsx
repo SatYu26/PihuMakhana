@@ -12,7 +12,7 @@ export default function JsonLd() {
         "@id": `${SITE_URL}/#organization`,
         name: SITE.brand,
         url: SITE_URL,
-        logo: `${SITE_URL}/images/logo.png`,
+        logo: `${SITE_URL}/images/logo-v2.png`,
         email: SITE.email,
         telephone: `+${SITE.phone}`,
         slogan: "From Farm to Your Bowl.",

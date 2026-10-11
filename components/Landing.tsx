@@ -32,7 +32,7 @@ export default function Landing() {
       <header className="sticky top-0 z-10 flex items-center justify-between bg-green-900 px-[5%] py-3 text-white">
         <a href="#top" aria-label={SITE.brand}>
           <Image
-            src="/images/logo.png"
+            src="/images/logo-v2.png"
             alt={`${SITE.brand} logo`}
             width={800}
             height={510}
