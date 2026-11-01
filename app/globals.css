@@ -1,23 +1,116 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-pond: #1f3d36;
+  --color-pond2: #2d5a4e;
+  --color-ivory: #f6f4ec;
+  --color-shell: #ebe7d8;
+  --color-ink: #1b2420;
+  --color-muted: #4f5b55;
+  --color-line: #d4cfbc;
+  --color-wa: #1a7f4b;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+  }
+
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font: 17px/1.65 var(--font-sans);
+  }
+
+  a {
+    color: var(--color-pond2);
+    text-decoration: underline;
+  }
+
+  :focus-visible {
+    outline: 3px solid #b8446d;
+    outline-offset: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    color: var(--color-pond);
+    line-height: 1.2;
+    margin: 0 0 0.5em;
+  }
+
+  h1 {
+    font-size: clamp(1.9rem, 5vw, 3rem);
+  }
+
+  h2 {
+    font-size: clamp(1.45rem, 3.2vw, 2rem);
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    margin-top: 1.4em;
+  }
+
+  p {
+    margin: 0 0 1em;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 4rem;
+@layer components {
+  .wrap {
+    @apply mx-auto max-w-[1040px] px-5;
+  }
+  .section {
+    @apply py-10 md:py-[54px];
+  }
+  .btn {
+    @apply inline-block cursor-pointer rounded-lg border-0 px-[22px] py-[13px] font-semibold no-underline;
+  }
+  .btn-wa {
+    @apply bg-wa text-white;
+  }
+  .btn-line {
+    @apply text-pond shadow-[inset_0_0_0_2px_var(--color-pond)];
+  }
+  .fine {
+    @apply text-[0.92rem] text-muted;
+  }
+  .steps {
+    @apply list-decimal pl-[1.2em] [&>li]:mb-[0.6em];
+  }
+  .tool {
+    @apply my-5 rounded-xl border border-line bg-white p-5;
+  }
+  .tool h3 {
+    @apply mt-0;
+  }
+  .tool label {
+    @apply my-2.5 block text-[0.95rem] font-semibold;
+  }
+  .tool input,
+  .tool select {
+    @apply mt-1 block w-full max-w-[320px] rounded-lg border border-line bg-white px-3 py-2.5 font-normal text-ink;
+  }
+  .data-table {
+    @apply w-full border-collapse bg-white text-[0.97rem];
+  }
+  .data-table th,
+  .data-table td {
+    @apply border-b border-line px-3.5 py-2.5 text-left align-top;
+  }
+  .data-table th {
+    @apply w-[44%] font-semibold text-pond md:w-[38%];
+  }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

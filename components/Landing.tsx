@@ -1,241 +1,284 @@
 import Image from "next/image";
-import OrderPanel from "@/components/OrderPanel";
-import { FAQ, PRODUCT, SITE, mailLink, telLink, waLink } from "@/lib/config";
+import Link from "next/link";
+import OrderBuilder from "@/components/OrderBuilder";
+import Reviews from "@/components/Reviews";
+import RoastTimer from "@/components/RoastTimer";
+import {
+  BUSINESS,
+  FAQ,
+  LAST_UPDATED,
+  NUTRITION,
+  NUTRITION_SOURCE,
+  PAGES,
+  PRODUCT,
+  PRODUCT_DETAILS,
+  ROAST_STEPS,
+  SITE,
+  WA,
+  telLink,
+} from "@/lib/config";
 
-const btnGhost =
-  "rounded-full border-2 border-green-800 bg-white px-6 py-3 font-bold text-green-800";
-const btnWa = "rounded-full bg-[#25d366] px-6 py-3 font-bold text-white";
-
-const WHY = [
-  [
-    "Direct from farms",
-    "No middlemen, so you get great quality at a better value.",
-  ],
-  [
-    "Carefully sourced",
-    "Every batch is selected with care. Quality you can taste.",
-  ],
-  ["Tasty & healthy", "A light, crunchy snack for the whole family."],
-  [
-    "Easy ordering",
-    "Just message, call or email us. We will confirm your order.",
-  ],
+const FACTS = [
+  "Raw",
+  "5+ suta",
+  "250 g",
+  `₹${PRODUCT.price}`,
+  `${BUSINESS.city} delivery`,
+  `Reply within ${BUSINESS.replyTime}`,
 ];
 
-export default function Landing() {
-  const enquiry = waLink(
-    "Hello, I would like to know more about Royal King Makhana.",
-  );
+const lastUpdatedLabel = new Date(
+  `${LAST_UPDATED}T00:00:00Z`,
+).toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
 
+export default function Landing() {
   return (
     <>
-      <header className="sticky top-0 z-10 flex items-center justify-between bg-green-900 px-[5%] py-3 text-white">
-        <a href="#top" aria-label={SITE.brand}>
-          <Image
-            src="/images/logo-v2.png"
-            alt={`${SITE.brand} logo`}
-            width={800}
-            height={510}
-            preload
-            className="h-12 w-auto rounded-lg bg-white p-1"
-          />
-        </a>
-        <nav className="hidden gap-5 md:flex">
-          <a href="#product">Product</a>
-          <a href="#about">About</a>
-          <a href="#why">Why us</a>
-          <a href="#faq">FAQ</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <a
-          href={enquiry}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-full bg-[#25d366] px-4 py-2 text-sm font-bold"
-        >
-          WhatsApp
-        </a>
-      </header>
-
-      <main id="top">
-        <section className="grid items-center gap-8 bg-amber-50 px-[5%] py-12 md:grid-cols-2">
+      <section className="section" aria-labelledby="h1">
+        <div className="wrap grid items-center gap-9 md:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <p className="font-extrabold uppercase tracking-widest text-amber-600">
-              Tasty &amp; Healthy
+            <h1 id="h1">{PRODUCT.name}</h1>
+            <p className="max-w-[58ch] text-[1.1rem]">
+              {SITE.brand} sells raw 5+ suta phool makhana (fox nuts) sourced
+              from growers in {BUSINESS.origin}. A 250 g pack costs ₹
+              {PRODUCT.price} (MRP ₹{PRODUCT.mrp}), or {PRODUCT.per100g} per 100
+              g. It is sold raw, so you roast or cook it before eating. We
+              deliver in {BUSINESS.cityFull}, and across India for bulk orders.
+              Order on WhatsApp or call, and we reply within{" "}
+              {BUSINESS.replyTime}.
             </p>
-            <h1 className="my-2 text-5xl font-extrabold leading-tight text-green-900">
-              From Farm
-              <br />
-              to Your Bowl.
-            </h1>
-            <p className="text-lg">
-              {PRODUCT.name} comes direct from farms, so you get great quality
-              at a better value. Pure bliss in every bite!
-            </p>
-            <div className="my-5 flex flex-wrap gap-3">
+            <ul
+              aria-label="Key facts"
+              className="my-[18px] flex flex-wrap gap-2"
+            >
+              {FACTS.map((f) => (
+                <li
+                  key={f}
+                  className="rounded-full border border-line bg-white px-3.5 py-1 text-[0.92rem]"
+                >
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <div className="mb-2.5 mt-5 flex flex-wrap gap-3">
               <a
-                href={enquiry}
+                className="btn btn-wa wa"
+                href={WA.order}
                 target="_blank"
-                rel="noopener noreferrer"
-                className={btnWa}
+                rel="noopener"
               >
-                Order Now on WhatsApp
+                Order on WhatsApp
               </a>
-              <a href={telLink} className={btnGhost}>
-                Call to order
+              <a className="btn btn-line" href={telLink}>
+                Call {SITE.phoneDisplay}
               </a>
             </div>
-            <p className="text-gray-600">Retail enquiries welcome.</p>
+            <p className="fine">
+              Tell us the pack size and your area. We confirm availability,
+              delivery charge and payment before dispatch. Not sure how much to
+              order? <a href="#order">Build your order</a>.
+            </p>
           </div>
           <Image
-            src="/images/hero-v2.png"
-            alt="Pihu Farm Fresh Royal King Makhana 250 g pack"
+            src={PRODUCT.image}
+            alt={PRODUCT.imageAlt}
             width={1122}
             height={1402}
             preload
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="mx-auto max-h-[620px] w-auto rounded-2xl shadow-xl"
+            sizes="(max-width: 768px) 100vw, 45vw"
+            className="mx-auto max-h-[620px] w-auto"
           />
-        </section>
+        </div>
+      </section>
 
-        <section id="product" className="px-[5%] py-16">
-          <h2 className="mb-8 text-center text-3xl font-bold text-green-900">
-            Our Product
-          </h2>
-          <div className="mx-auto grid max-w-4xl overflow-hidden rounded-2xl shadow-xl md:grid-cols-2">
-            <Image
-              src="/images/showcase.png"
-              alt="Royal King Makhana snack showcase"
-              width={1122}
-              height={1402}
-              sizes="(max-width: 768px) 100vw, 450px"
-              className="h-full w-full object-cover"
-            />
-            <div className="p-7">
-              <h3 className="text-2xl font-bold text-green-900">
-                {PRODUCT.name}
-              </h3>
-              <p className="mt-2">
-                Carefully sourced. Quality you can taste. Light, crunchy and
-                wholesome fox nuts for everyday snacking.
-              </p>
-              <p className="mt-2 text-gray-600">{PRODUCT.pack}</p>
-              <p className="my-2 text-3xl">
-                <del className="text-xl text-gray-400">₹{PRODUCT.mrp}</del>{" "}
-                <strong className="text-green-800">₹{PRODUCT.price}</strong>
-              </p>
-              <OrderPanel />
+      <section
+        id="details"
+        className="section bg-shell"
+        aria-labelledby="h-details"
+      >
+        <div className="wrap">
+          <h2 id="h-details">Product details</h2>
+          <div className="overflow-x-auto">
+            <table className="data-table">
+              <tbody>
+                {PRODUCT_DETAILS.map(([k, v]) => (
+                  <tr key={k}>
+                    <th scope="row">{k}</th>
+                    <td>{v}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="fine mt-3">
+            Last updated:{" "}
+            <time dateTime={LAST_UPDATED}>{lastUpdatedLabel}</time>
+          </p>
+        </div>
+      </section>
+
+      <section id="nutrition" className="section" aria-labelledby="h-nutrition">
+        <div className="wrap">
+          <h2 id="h-nutrition">Nutrition per 100 g</h2>
+          <div className="overflow-x-auto">
+            <table className="data-table">
+              <tbody>
+                {NUTRITION.filter((n) => !n.pending).map((n) => (
+                  <tr key={n.name}>
+                    <th scope="row">{n.name}</th>
+                    <td>{n.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {NUTRITION_SOURCE && (
+            <p className="fine mt-3">Source: {NUTRITION_SOURCE}</p>
+          )}
+        </div>
+      </section>
+
+      <section className="section bg-shell" aria-labelledby="h-what">
+        <div className="wrap grid items-start gap-9 md:grid-cols-2">
+          <div>
+            <h2 id="h-what">What is phool makhana?</h2>
+            <p>
+              Phool makhana is a common trade name for popped makhana, the
+              puffed seed of the water plant <i>Euryale ferox</i>. It is also
+              called fox nuts or gorgon nuts, and is often described as lotus
+              seeds. It grows in ponds, and in India most of it comes from
+              Bihar. After harvest the seeds are dried and popped into light,
+              white puffs. Raw makhana has a mild taste and takes on the
+              seasoning you add.
+            </p>
+          </div>
+          <div>
+            <h2>What does 5+ suta mean?</h2>
+            <p>
+              Suta is a size grade used by makhana traders, and a higher number
+              generally means larger puffs. Our pack is 5+ suta. Grading differs
+              between sellers, so compare photos and ask any seller for the puff
+              size before you buy.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="roast" className="section" aria-labelledby="h-roast">
+        <div className="wrap grid items-start gap-9 md:grid-cols-2">
+          <div>
+            <h2 id="h-roast">How to roast raw makhana</h2>
+            <p>
+              Heat a pan on low, add makhana with an optional teaspoon of ghee,
+              and stir often for about 5 to 8 minutes, until each piece snaps
+              easily. Times vary with the pan and the batch size.
+            </p>
+            <ol className="steps">
+              {ROAST_STEPS.map((s) => (
+                <li key={s}>{s}</li>
+              ))}
+            </ol>
+            <p>
+              <Link href={PAGES.roast.path}>Read the full roasting guide</Link>
+            </p>
+            <RoastTimer />
+          </div>
+          <div>
+            <h2>Ways to use raw makhana</h2>
+            <p>
+              Raw makhana is commonly roasted as a snack, or cooked in kheer and
+              curries. Our pack is raw and is meant to be roasted or cooked
+              before eating.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="order"
+        className="section bg-shell"
+        aria-labelledby="h-order"
+      >
+        <div className="wrap grid items-start gap-9 md:grid-cols-2">
+          <div>
+            <h2 id="h-order">How to order</h2>
+            <ol className="steps">
+              <li>
+                Tap Order on WhatsApp, or call {SITE.phoneDisplay}, and tell us
+                the pack size, quantity and area.
+              </li>
+              <li>
+                We confirm availability, delivery charge and payment details.
+              </li>
+              <li>
+                We dispatch after payment is confirmed and deliver in{" "}
+                {BUSINESS.city}.
+              </li>
+            </ol>
+            <OrderBuilder />
+            <div className="mb-2.5 mt-5 flex flex-wrap gap-3">
+              <a
+                className="btn btn-wa wa"
+                href={WA.order}
+                target="_blank"
+                rel="noopener"
+              >
+                Order 250 g on WhatsApp
+              </a>
+              <a
+                className="btn btn-line wa"
+                href={WA.largePack}
+                target="_blank"
+                rel="noopener"
+              >
+                Ask for 500 g or 1 kg
+              </a>
             </div>
           </div>
-        </section>
-
-        <section id="about" className="px-[5%] py-16">
-          <div className="mx-auto max-w-3xl space-y-4 text-lg">
-            <h2 className="text-center text-3xl font-bold text-green-900">
-              About Pihu Farm Fresh Makhana
-            </h2>
+          <div>
+            <h2>Delivery and bulk orders</h2>
             <p>
-              Why pay more for quality when farm-fresh goodness can come
-              straight to your bowl? 🌿
+              We deliver across all of {BUSINESS.city}. For bulk orders we
+              deliver across India. Send the quantity in kg and your delivery
+              city on WhatsApp, and we reply with a quote within{" "}
+              {BUSINESS.replyTime}.
             </p>
             <p>
-              Meet Pihu Farm Fresh Makhana, your everyday crunch with a royal
-              touch. Carefully sourced directly from farms, our Royal King
-              Makhana brings you quality snacking, delicious crunch, and better
-              value in every pack. Because great snacking should feel special
-              without stretching your budget.
-            </p>
-            <p>
-              Enjoy premium makhana for your tea-time cravings, family
-              gatherings, office breaks, or everyday snacking.
-            </p>
-            <ul className="space-y-1">
-              <li>📦 Available in a 250 g pack</li>
-              <li>💰 Special price: ₹{PRODUCT.price}</li>
-              <li>📲 Order directly on WhatsApp: {SITE.phoneDisplay}</li>
-              <li>🏪 Retail and bulk enquiries welcome.</li>
-            </ul>
-            <p className="font-bold text-green-900">
-              Pihu Farm Fresh Makhana — From Farm to Your Bowl.
+              <a className="wa" href={WA.bulk} target="_blank" rel="noopener">
+                Ask for a bulk quote on WhatsApp
+              </a>
+              {" · "}
+              <Link href={PAGES.bulk.path}>Bulk order details</Link>
             </p>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section id="why" className="bg-amber-50 px-[5%] py-16">
-          <h2 className="mb-8 text-center text-3xl font-bold text-green-900">
-            Why Pihu Farm Fresh?
-          </h2>
-          <div className="mx-auto grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {WHY.map(([title, text]) => (
+      <Reviews />
+
+      <section id="faq" className="section bg-shell" aria-labelledby="h-faq">
+        <div className="wrap">
+          <h2 id="h-faq">Frequently asked questions</h2>
+          <div className="mt-6 grid gap-3">
+            {FAQ.map(({ q, a }) => (
               <div
-                key={title}
-                className="rounded-xl border-t-4 border-amber-500 bg-white p-5"
+                key={q}
+                className="rounded-xl border border-line border-l-4 border-l-pond bg-white px-5 py-4"
               >
-                <h3 className="font-bold text-green-900">{title}</h3>
-                <p>{text}</p>
+                <h3 className="m-0 font-sans text-[1.08rem] font-bold text-pond">
+                  {q}
+                </h3>
+                <p className="mb-0 mt-1.5 max-w-[68ch] text-ink">{a}</p>
               </div>
             ))}
           </div>
-        </section>
-
-        <section id="faq" className="px-[5%] py-16">
-          <h2 className="mb-8 text-center text-3xl font-bold text-green-900">
-            Frequently Asked Questions
-          </h2>
-          <div className="mx-auto max-w-3xl space-y-3">
-            {FAQ.map(({ q, a }) => (
-              <details
-                key={q}
-                className="rounded-xl border border-green-800/20 p-4"
-              >
-                <summary className="cursor-pointer font-semibold text-green-900">
-                  {q}
-                </summary>
-                <p className="mt-2">{a}</p>
-              </details>
-            ))}
-          </div>
-        </section>
-
-        <section id="contact" className="bg-amber-50 px-[5%] py-16 text-center">
-          <h2 className="mb-6 text-3xl font-bold text-green-900">
-            How to Order
-          </h2>
-          <ol className="mx-auto mb-6 max-w-xl list-decimal pl-6 text-left">
-            <li>
-              Message us on WhatsApp, call, or email with the quantity you want.
-            </li>
-            <li>We confirm the price, delivery and payment details.</li>
-            <li>Your makhana is packed and sent to you.</li>
-          </ol>
-          <div className="flex flex-wrap justify-center gap-3">
-            <a
-              href={enquiry}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={btnWa}
-            >
-              WhatsApp
-            </a>
-            <a href={telLink} className={btnGhost}>
-              Call
-            </a>
-            {mailLink && (
-              <a href={mailLink} className={btnGhost}>
-                Email
-              </a>
-            )}
-          </div>
-          <p className="mt-4 text-gray-600">
-            WhatsApp &amp; Call: {SITE.phoneDisplay} · {SITE.email}
-          </p>
-          <p className="text-gray-600">Retail and bulk enquiries welcome.</p>
-        </section>
-      </main>
-
-      <footer className="bg-green-900 p-5 text-center text-white">
-        © {SITE.brand}. All rights reserved.
-      </footer>
+        </div>
+      </section>
     </>
   );
 }
